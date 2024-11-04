@@ -1,0 +1,23 @@
+{
+	"name": "bulk-file-renamer",
+	"version": "1.0.0",
+	"description": "a cli tool for renaming files in bulk",
+	"main": "./bin/rename-cli.js",
+	"scripts": {
+		"test": "vitest"
+	},
+	"bin": {
+		"rname": "./bin/rename-cli.js"
+	},
+	"author": {
+		"name": "Raphico",
+		"url": "https://github.com/raphico"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"vitest": "^2.1.4"
+	},
+	"dependencies": {
+		"yargs": "^17.7.2"
+	}
+}
