@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * get dates in specified format
  * @param {Date} date

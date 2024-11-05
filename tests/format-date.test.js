@@ -1,3 +1,5 @@
+"use strict";
+
 import { test, describe, expect } from "vitest";
 import { formatDate } from "../src/utils/format-date.js";
 
