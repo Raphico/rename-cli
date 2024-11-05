@@ -1,6 +1,6 @@
 # Bulk File rename
 
-A command-line tool for bulk renaming files based on patterns, dates, or metadata
+A command-line tool for bulk renaming files based on patterns, dates, and file type
 
 ## Features
 
