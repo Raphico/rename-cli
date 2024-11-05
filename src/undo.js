@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { printError } from "../utils/help.js";
+import { printError } from "./utils/help.js";
 
 export function handleUndo() {
 	const logsPath = path.join(import.meta.dirname, "logs/history.json");

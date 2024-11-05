@@ -2,13 +2,13 @@
 	"name": "bulk-file-renamer",
 	"version": "1.0.0",
 	"description": "a cli tool for renaming files in bulk",
-	"main": "./bin/rename-cli.js",
+	"main": "./src/rename-cli.js",
 	"type": "module",
 	"scripts": {
 		"test": "vitest"
 	},
 	"bin": {
-		"bfr": "./bin/rename-cli.js"
+		"bfr": "./src/rename-cli.js"
 	},
 	"author": {
 		"name": "Raphico",

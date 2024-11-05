@@ -5,8 +5,8 @@ A command-line tool for bulk renaming files based on patterns, dates, or metadat
 ## Features
 
 -   **Pattern-Based Renaming:** Rename files by specifying search and replacement patterns.
--   **Date-Based Renaming:** Rename files using their creation or last modified dates.
--   **Metadata-Based Renaming:** Use file metadata (e.g., EXIF data for images) for renaming.
+-   **Date-Based Renaming:** Rename files using their creation dates.
+-   **File-type-Based Renaming:** Rename only files with specified file type
 -   **Undo Functionality:** Easily revert the last renaming operation.
 -   **Dry Run Mode:** Preview changes before applying them.
 
@@ -28,4 +28,10 @@ npm install
 
 ```bash
 npm link
+```
+
+## Usage
+
+```bash
+bfr --help
 ```

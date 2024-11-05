@@ -3,10 +3,10 @@
 "use strict";
 
 import minimist from "minimist";
-import { hideBin } from "../src/utils/hide-bin.js";
-import { printError, printHelp } from "../src/utils/help.js";
-import { handleRename } from "../src/commands/rename.js";
-import { handleUndo } from "../src/commands/undo.js";
+import { hideBin } from "./utils/hide-bin.js";
+import { printError, printHelp } from "./utils/help.js";
+import { handleRename } from "./rename.js";
+import { handleUndo } from "./undo.js";
 
 const argv = minimist(hideBin(process.argv), {
 	string: ["pattern", "replace", "directory", "date-format", "file-type"],

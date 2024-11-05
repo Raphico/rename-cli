@@ -1,10 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
-import { printError } from "../utils/help.js";
-import { isFile } from "../utils/is-file.js";
-import { nonEmpty } from "../utils/non-empty.js";
-import { ALLOWED_DATE_FORMATS } from "../constants.js";
-import { formatDate } from "../utils/format-date.js";
+import { printError } from "./utils/help.js";
+import { isFile } from "./utils/is-file.js";
+import { nonEmpty } from "./utils/non-empty.js";
+import { ALLOWED_DATE_FORMATS } from "./constants.js";
+import { formatDate } from "./utils/format-date.js";
 
 export function handleRename(argv) {
 	if (!nonEmpty(argv.directory)) {
