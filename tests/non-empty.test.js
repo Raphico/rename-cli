@@ -1,5 +1,5 @@
 import { test, describe, expect } from "vitest";
-import { nonEmpty } from "../../src/utils/non-empty";
+import { nonEmpty } from "../src/utils/non-empty.js";
 
 describe("nonEmpty", () => {
 	test("should return false if string is empty", () => {
