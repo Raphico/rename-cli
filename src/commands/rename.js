@@ -20,7 +20,8 @@ export function handleRename(argv) {
 			argv.directory,
 			argv.pattern,
 			argv.replace,
-			argv["dry-run"]
+			argv["dry-run"],
+			argv.sequence
 		);
 		return;
 	}
@@ -28,19 +29,37 @@ export function handleRename(argv) {
 	if (
 		argv["date-created"] &&
 		nonEmpty(argv["date-format"]) &&
-		ALLOWED_DATE_FORMATS.includes(argv["date-format"])
+		ALLOWED_DATE_FORMATS.includes(argv["date-format"].toLowerCase())
 	) {
-		dateCreatedRename(argv.directory, argv["date-format"], argv["dry-run"]);
+		dateCreatedRename(
+			argv.directory,
+			argv["date-format"],
+			argv["dry-run"],
+			argv.sequence
+		);
 		return;
 	}
 
 	printError("bfr: usage error");
 }
 
-function dateCreatedRename(directoryPath, dateFormat, dryRun = false) {
-	readdir(directoryPath).forEach(function renameFile(filePath) {
+function dateCreatedRename(
+	directoryPath,
+	dateFormat,
+	dryRun = false,
+	addSequenceNumber = false
+) {
+	readdir(directoryPath).forEach(function renameFile(filePath, index) {
 		const stat = fs.statSync(filePath);
-		const prefix = `${formatDate(new Date(stat.ctime), dateFormat)}_`;
+
+		const sequenceNumber = addSequenceNumber
+			? `${String(index).padStart(3, "0")}_`
+			: "";
+		const prefix = `${formatDate(
+			new Date(stat.ctime),
+			dateFormat
+		)}_${sequenceNumber}`;
+
 		const newPath = `${path.dirname(filePath)}/${prefix}${path.basename(
 			filePath
 		)}`;
@@ -49,14 +68,29 @@ function dateCreatedRename(directoryPath, dateFormat, dryRun = false) {
 	});
 }
 
-function patternRename(directoryPath, pattern, replace, dryRun = false) {
+function patternRename(
+	directoryPath,
+	pattern,
+	replace,
+	dryRun = false,
+	addSequenceNumber = false
+) {
 	readdir(directoryPath)
 		.filter(function getMatchFiles(file) {
 			const match = new RegExp(pattern);
 			return match.test(file);
 		})
-		.forEach(function renameFile(filePath) {
-			const newPath = filePath.replace(pattern, replace);
+		.forEach(function renameFile(filePath, index) {
+			const sequenceNumber = addSequenceNumber
+				? `${String(index).padStart(3, "0")}_`
+				: "";
+			const newPath =
+				path.dirname(filePath) +
+				"/" +
+				path
+					.basename(filePath)
+					.replace(pattern, `${replace}${sequenceNumber}`);
+
 			renameOrLog(filePath, newPath, dryRun);
 		});
 }

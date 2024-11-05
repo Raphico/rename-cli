@@ -1,1 +1,1 @@
-export const ALLOWED_DATE_FORMATS = ["YYYY-MM-DD", "DD-MM-YYYY"];
+export const ALLOWED_DATE_FORMATS = ["yyyy-mm-dd", "dd-mm-yyyy"];
