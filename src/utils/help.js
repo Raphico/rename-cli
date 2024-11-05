@@ -31,7 +31,14 @@ export function printHelp() {
 	console.log(help);
 }
 
-export function printError(errorMessage) {
+/**
+ * print error message to the stderror
+ * @param {string} errorMessage - error message
+ * @param {boolean} showHelpCommand - display help command
+ */
+export function printError(errorMessage, showHelpCommand = true) {
 	console.error(errorMessage);
-	console.error("Try 'bfr --help' for more information.");
+	if (showHelpCommand) {
+		console.error("Try 'bfr --help' for more information.");
+	}
 }

@@ -5,9 +5,19 @@
 import minimist from "minimist";
 import { hideBin } from "../src/utils/hide-bin.js";
 import { printError, printHelp } from "../src/utils/help.js";
+import { rename } from "../src/commands/rename.js";
+import { undo } from "../src/commands/undo.js";
 
 const argv = minimist(hideBin(process.argv), {
-	boolean: ["help"],
+	string: [
+		"pattern",
+		"replace",
+		"directory",
+		"date-created",
+		"date-format",
+		"field",
+	],
+	boolean: ["help", "sequence", "dry-run", "use-metadata"],
 	alias: {
 		h: "help",
 	},
@@ -15,6 +25,10 @@ const argv = minimist(hideBin(process.argv), {
 
 if (argv.help) {
 	printHelp();
+} else if (argv._.includes("rename")) {
+	rename(argv);
+} else if (argv._.includes("undo")) {
+	undo();
 } else {
 	printError("bfr: usage error");
 }
