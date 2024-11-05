@@ -1,11 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import { printError } from "./utils/help.js";
+import { renameOrLog } from "./rename.js";
 
 export function handleUndo() {
-	const logsPath = path.join(import.meta.dirname, "logs/history.json");
+	const historyPath = path.resolve(import.meta.dirname, "../history.json");
+	const history = JSON.parse(
+		fs.readFileSync(historyPath, { encoding: "utf8" })
+	);
 
-	if (!fs.existsSync(logsPath)) {
-		printError("bfr: no renaming history found to undo", false);
+	if (history.length == 0) {
+		printError("bfr: history is empty", false);
 	}
+
+	history.forEach(function reset(file) {
+		renameOrLog(file.newName, file.oldName, false);
+	});
 }

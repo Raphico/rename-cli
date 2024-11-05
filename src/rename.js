@@ -3,10 +3,11 @@ import path from "node:path";
 import { printError } from "./utils/help.js";
 import { isFile } from "./utils/is-file.js";
 import { nonEmpty } from "./utils/non-empty.js";
-import { ALLOWED_DATE_FORMATS } from "./constants.js";
 import { formatDate } from "./utils/format-date.js";
 
 export function handleRename(argv) {
+	const ALLOWED_DATE_FORMATS = ["yyyy-mm-dd", "dd-mm-yyyy"];
+
 	if (!nonEmpty(argv.directory)) {
 		printError("bfr: missing directory");
 		return;
@@ -16,7 +17,7 @@ export function handleRename(argv) {
 	}
 
 	if (nonEmpty(argv.pattern) && nonEmpty(argv.replace)) {
-		patternRename(
+		const logs = patternRename(
 			argv.directory,
 			argv.pattern,
 			argv.replace,
@@ -24,6 +25,7 @@ export function handleRename(argv) {
 			argv["dry-run"],
 			argv.sequence
 		);
+		!argv["dry-run"] && updateHistory(logs);
 		return;
 	}
 
@@ -32,13 +34,14 @@ export function handleRename(argv) {
 		nonEmpty(argv["date-format"]) &&
 		ALLOWED_DATE_FORMATS.includes(argv["date-format"].toLowerCase())
 	) {
-		dateCreatedRename(
+		const logs = dateCreatedRename(
 			argv.directory,
 			argv["date-format"],
 			argv["file-type"],
 			argv["dry-run"],
 			argv.sequence
 		);
+		!argv["dry-run"] && updateHistory(logs);
 		return;
 	}
 
@@ -52,7 +55,7 @@ function dateCreatedRename(
 	dryRun = false,
 	addSequenceNumber = false
 ) {
-	readdir(directoryPath, fileType).forEach(function renameFile(
+	return readdir(directoryPath, fileType).map(function renameFile(
 		filePath,
 		index
 	) {
@@ -71,6 +74,10 @@ function dateCreatedRename(
 		)}`;
 
 		renameOrLog(filePath, newPath, dryRun);
+		return {
+			newName: newPath,
+			oldName: filePath,
+		};
 	});
 }
 
@@ -82,12 +89,12 @@ function patternRename(
 	dryRun = false,
 	addSequenceNumber = false
 ) {
-	readdir(directoryPath, fileType)
+	return readdir(directoryPath, fileType)
 		.filter(function getMatchFiles(file) {
 			const match = new RegExp(pattern);
 			return match.test(file);
 		})
-		.forEach(function renameFile(filePath, index) {
+		.map(function renameFile(filePath, index) {
 			const sequenceNumber = addSequenceNumber
 				? `${String(index).padStart(3, "0")}_`
 				: "";
@@ -99,6 +106,10 @@ function patternRename(
 					.replace(pattern, `${replace}${sequenceNumber}`);
 
 			renameOrLog(filePath, newPath, dryRun);
+			return {
+				newName: newPath,
+				oldName: filePath,
+			};
 		});
 }
 
@@ -113,7 +124,7 @@ function readdir(directoryPath, fileType) {
 		);
 }
 
-function renameOrLog(oldPath, newPath, log) {
+export function renameOrLog(oldPath, newPath, log) {
 	if (!log) {
 		try {
 			fs.renameSync(oldPath, newPath);
@@ -122,6 +133,11 @@ function renameOrLog(oldPath, newPath, log) {
 			console.error(error);
 		}
 	} else {
-		console.log(newPath);
+		console.log(path.basename(newPath));
 	}
+}
+
+function updateHistory(fileLogs) {
+	const historyPath = path.resolve(import.meta.dirname, "../history.json");
+	fs.writeFileSync(historyPath, JSON.stringify(fileLogs));
 }
