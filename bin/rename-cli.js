@@ -9,15 +9,8 @@ import { rename } from "../src/commands/rename.js";
 import { undo } from "../src/commands/undo.js";
 
 const argv = minimist(hideBin(process.argv), {
-	string: [
-		"pattern",
-		"replace",
-		"directory",
-		"date-created",
-		"date-format",
-		"field",
-	],
-	boolean: ["help", "sequence", "dry-run", "use-metadata"],
+	string: ["pattern", "replace", "directory", "date-format", "field"],
+	boolean: ["help", "date-created", "sequence", "dry-run", "use-metadata"],
 	alias: {
 		h: "help",
 	},
