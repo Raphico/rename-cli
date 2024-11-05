@@ -9,10 +9,15 @@ import { handleRename } from "../src/commands/rename.js";
 import { handleUndo } from "../src/commands/undo.js";
 
 const argv = minimist(hideBin(process.argv), {
-	string: ["pattern", "replace", "directory", "date-format"],
+	string: ["pattern", "replace", "directory", "date-format", "file-type"],
 	boolean: ["help", "date-created", "sequence", "dry-run"],
 	alias: {
 		h: "help",
+		p: "pattern",
+		r: "replace",
+		d: "directory",
+		s: "sequence",
+		f: "file-type",
 	},
 });
 

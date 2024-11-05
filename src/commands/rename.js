@@ -20,6 +20,7 @@ export function handleRename(argv) {
 			argv.directory,
 			argv.pattern,
 			argv.replace,
+			argv["file-type"],
 			argv["dry-run"],
 			argv.sequence
 		);
@@ -34,6 +35,7 @@ export function handleRename(argv) {
 		dateCreatedRename(
 			argv.directory,
 			argv["date-format"],
+			argv["file-type"],
 			argv["dry-run"],
 			argv.sequence
 		);
@@ -46,10 +48,14 @@ export function handleRename(argv) {
 function dateCreatedRename(
 	directoryPath,
 	dateFormat,
+	fileType,
 	dryRun = false,
 	addSequenceNumber = false
 ) {
-	readdir(directoryPath).forEach(function renameFile(filePath, index) {
+	readdir(directoryPath, fileType).forEach(function renameFile(
+		filePath,
+		index
+	) {
 		const stat = fs.statSync(filePath);
 
 		const sequenceNumber = addSequenceNumber
@@ -72,10 +78,11 @@ function patternRename(
 	directoryPath,
 	pattern,
 	replace,
+	fileType,
 	dryRun = false,
 	addSequenceNumber = false
 ) {
-	readdir(directoryPath)
+	readdir(directoryPath, fileType)
 		.filter(function getMatchFiles(file) {
 			const match = new RegExp(pattern);
 			return match.test(file);
@@ -95,13 +102,15 @@ function patternRename(
 		});
 }
 
-function readdir(directoryPath) {
+function readdir(directoryPath, fileType) {
 	return fs
 		.readdirSync(directoryPath)
 		.map(function getFullPath(file) {
 			return path.join(directoryPath, file);
 		})
-		.filter(isFile);
+		.filter((file) =>
+			isFile(file) && fileType ? path.extname(file) === fileType : true
+		);
 }
 
 function renameOrLog(oldPath, newPath, log) {
