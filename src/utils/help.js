@@ -1,4 +1,5 @@
-const help = `
+export function printHelp() {
+	const help = `
 Usage:
     bfr <command> [options]
 
@@ -22,12 +23,10 @@ Options:
 Examples:
     bfr rename --pattern="IMG_" --replace="Vacation_" --directory="/path/to/photos" --sequence
     bfr rename --date-created --date-format="YYYY-MM-DD" --directory="/path/to/files"
-    bfr rename --use-metadata --field="Camera Model" --directory="/path/to/photos"
     bfr rename --pattern="Document_" --replace="Project_" --dry-run --directory="/path/to/documents"
     bfr undo
 `;
 
-export function printHelp() {
 	console.log(help);
 }
 

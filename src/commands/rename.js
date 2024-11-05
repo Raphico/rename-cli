@@ -6,7 +6,7 @@ import { nonEmpty } from "../utils/non-empty.js";
 import { ALLOWED_DATE_FORMATS } from "../constants.js";
 import { formatDate } from "../utils/format-date.js";
 
-export function rename(argv) {
+export function handleRename(argv) {
 	if (!nonEmpty(argv.directory)) {
 		printError("bfr: missing directory");
 		return;

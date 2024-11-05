@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { printError } from "../utils/help.js";
 
-export function undo() {
+export function handleUndo() {
 	const logsPath = path.join(import.meta.dirname, "logs/history.json");
 
 	if (!fs.existsSync(logsPath)) {
