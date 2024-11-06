@@ -16,6 +16,7 @@ A command-line tool for bulk renaming files based on patterns, dates, and file t
 
 ```bash
 git clone git@github.com:Raphico/rename-cli.git
+cd rename-cli
 ```
 
 2. Install dependencies
@@ -35,3 +36,18 @@ npm link
 ```bash
 bfr --help
 ```
+
+## Command
+
+| Command                       | Description                                            | Example                                             |
+| ----------------------------- | ------------------------------------------------------ | --------------------------------------------------- |
+| `rename`                      | Rename files in a specified directory.                 | `bfr rename --pattern "IMG_" --replace "Vacation_"` |
+| `undo`                        | Revert the last rename operation.                      | `bfr undo`                                          |
+| `-p, --pattern <string>`      | Search pattern to match in filenames for renaming.     | `--pattern "IMG_"`                                  |
+| `-r, --replace <string>`      | String to replace the search pattern with.             | `--replace "Vacation_"`                             |
+| `--date-created`              | Rename files based on their creation date.             | `--date-created`                                    |
+| `--date-format <format>`      | Specify the date format (e.g., "YYYY-MM-DD").          | `--date-format "YYYY-MM-DD"`                        |
+| `-s, --sequence`              | Add sequential numbers to renamed files.               | `--sequence`                                        |
+| `-d, --directory <path>`      | Directory containing files to rename.                  | `--directory "/path/to/photos"`                     |
+| `-f, --file-type <extension>` | Limit renaming to a specific file type (e.g., ".jpg"). | `--file-type ".jpg"`                                |
+| `--dry-run`                   | Preview renaming changes without applying them.        | `--dry-run`                                         |
