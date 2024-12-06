@@ -1,5 +1,3 @@
-"use strict";
-
 import { test, describe, expect } from "vitest";
 import { nonEmpty } from "../src/utils/non-empty.js";
 

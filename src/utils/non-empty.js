@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * checks if a string is not empty
  * @param {string} str
